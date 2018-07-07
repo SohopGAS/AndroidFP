@@ -14,7 +14,6 @@ public class Settings extends AppCompatActivity implements SeekBar.OnSeekBarChan
     AudioManager am;
     TextView mv;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

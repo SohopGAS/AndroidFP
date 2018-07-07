@@ -10,7 +10,6 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
-
     MediaPlayer fullsong;
     MediaPlayer beep;
     AudioManager am;
