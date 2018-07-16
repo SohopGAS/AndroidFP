@@ -11,7 +11,10 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class AnimatedView extends View {
-    private static final int HOR_SPEED = 3;
+    private static final int HOR_SPEED = 10;
+    private int radius = 50;
+//    private mDeltaY = 10;
+    private long l = getWidth() / 4, r = (getWidth() - getWidth() / 4);
     Paint paint;
     private int mHorSpeed;
     private long mTimeOfDown;
@@ -52,14 +55,18 @@ public class AnimatedView extends View {
         if (event.getAction() == event.ACTION_DOWN) {
             if (x < getWidth() / 2) {
                 mHorSpeed = -HOR_SPEED;
-            } else {
-                mHorSpeed = HOR_SPEED;
-
             }
+            else {
+                mHorSpeed = HOR_SPEED;
+            }
+
             mTimeOfDown = System.currentTimeMillis();
             postInvalidateOnAnimation();
+
             return true;
         }
+
+
         //PO
         if (event.getAction() == event.ACTION_MOVE) {
 
@@ -76,25 +83,45 @@ public class AnimatedView extends View {
         return super.onTouchEvent(event);
     }
 
+
+
     @Override
     protected void onDraw(Canvas canvas) {
-        long t1 = System.currentTimeMillis();
         long x = mHorSpeed == 0 ?
                 (long) mXonDown :
-                Calculations.calculateCarLocation(t1 - mTimeOfDown, mXonDown, mHorSpeed);
+                Calculations.calculateCarLocation(System.currentTimeMillis() - mTimeOfDown, mXonDown, mHorSpeed);
+
+        // Keep the ball / car in the screen (check X limits: between 0 to getWidth).
+        if (x < radius)
+            x = radius;
+        if (x > getWidth() - radius)
+            x = getWidth() - radius;
+
         drawCar(canvas, x);
+
+        drawRoad(canvas, l, r);
+
+
         if (mHorSpeed != 0)
             postInvalidateOnAnimation();
         Log.d("TTT ", "x is: " + x);
     }
 
-    private void drawCar(Canvas canvas, long x) {
 
-        canvas.drawCircle(x, getHeight() - 30, 10, paint);
+    private void drawCar(Canvas canvas, long x) {
+        canvas.drawCircle(x, getHeight() - (getHeight() / 4), radius, paint);
     }
+
+    // This implementation is static, need to use left and right.
+    private void drawRoad(Canvas canvas, long left, long right) {
+        canvas.drawLine( getWidth() / 4,0, getWidth() / 4, getHeight(), paint);
+        canvas.drawLine( (getWidth() - getWidth() / 4),0,getWidth() - getWidth() / 4, getHeight(), paint);
+    }
+
 
     private void init() {
         paint = new Paint();
+        paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
         paint.setColor(Color.RED);
         // cannonPaint = new Paint();
