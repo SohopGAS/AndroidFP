@@ -13,7 +13,7 @@ import android.view.View;
 public class AnimatedView extends View {
     private static final int HOR_SPEED = 10;
     private int radius = 50;
-//    private mDeltaY = 10;
+    // private mDeltaY = 10;
     private long l = getWidth() / 4, r = (getWidth() - getWidth() / 4);
     Paint paint;
     private int mHorSpeed;
@@ -59,14 +59,10 @@ public class AnimatedView extends View {
             else {
                 mHorSpeed = HOR_SPEED;
             }
-
             mTimeOfDown = System.currentTimeMillis();
             postInvalidateOnAnimation();
-
             return true;
         }
-
-
         //PO
         if (event.getAction() == event.ACTION_MOVE) {
 
@@ -82,8 +78,6 @@ public class AnimatedView extends View {
 
         return super.onTouchEvent(event);
     }
-
-
 
     @Override
     protected void onDraw(Canvas canvas) {

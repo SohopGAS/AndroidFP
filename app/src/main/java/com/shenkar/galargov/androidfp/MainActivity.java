@@ -6,7 +6,10 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
     MediaPlayer beep;
     AudioManager am;
     int currentvol;
+
+    private RelativeLayout myLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         fullsong= MediaPlayer.create(MainActivity.this, R.raw.luck);
         fullsong.setLooping(true);
         fullsong.start();
+
+//        myLayout.setOnTouchListener();
     }
 
     @Override
@@ -41,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, Game.class);
         startActivity(i);
 
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
     }
 
     public void toSetting(View v){
