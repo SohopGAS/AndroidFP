@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         currentvol = am.getStreamVolume(AudioManager.STREAM_MUSIC);
         if(currentvol == 0)
             fullsong.pause();
-        else fullsong.start();
+        else
+            fullsong.start();
     }
 
 
