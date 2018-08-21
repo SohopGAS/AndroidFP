@@ -1,0 +1,198 @@
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"NullableNotNullManager\">\n    <option name=\"myDefaultNullable\" value=\"android.support.annotation.Nullable\" />\n    <option name=\"myDefaultNotNull\" value=\"android.support.annotation.NonNull\" />\n    <option name=\"myNullables\">\n      <value>\n        <list size=\"5\">\n          <item index=\"0\" class=\"java.lang.String\" itemvalue=\"org.jetbrains.annotations.Nullable\" />\n          <item index=\"1\" class=\"java.lang.String\" itemvalue=\"javax.annotation.Nullable\" />\n          <item index=\"2\" class=\"java.lang.String\" itemvalue=\"javax.annotation.CheckForNull\" />\n          <item index=\"3\" class=\"java.lang.String\" itemvalue=\"edu.umd.cs.findbugs.annotations.Nullable\" />\n          <item index=\"4\" class=\"java.lang.String\" itemvalue=\"android.support.annotation.Nullable\" />\n        </list>\n      </value>\n    </option>\n    <option name=\"myNotNulls\">\n      <value>\n        <list size=\"4\">\n          <item index=\"0\" class=\"java.lang.String\" itemvalue=\"org.jetbrains.annotations.NotNull\" />\n          <item index=\"1\" class=\"java.lang.String\" itemvalue=\"javax.annotation.Nonnull\" />\n          <item index=\"2\" class=\"java.lang.String\" itemvalue=\"edu.umd.cs.findbugs.annotations.NonNull\" />\n          <item index=\"3\" class=\"java.lang.String\" itemvalue=\"android.support.annotation.NonNull\" />\n        </list>\n      </value>\n    </option>\n  </component>\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_7\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision 7114fa560838ffed50b2d8276968dabc9a2ed985)
++++ .idea/misc.xml	(date 1533492116000)
+@@ -1,5 +1,10 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="EntryPointsManager">
++    <list size="1">
++      <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.Contract" />
++    </list>
++  </component>
+   <component name="NullableNotNullManager">
+     <option name="myDefaultNullable" value="android.support.annotation.Nullable" />
+     <option name="myDefaultNotNull" value="android.support.annotation.NonNull" />
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\n\nbuildscript {\n    \n    repositories {\n        google()\n        jcenter()\n    }\n    dependencies {\n        classpath 'com.android.tools.build:gradle:3.1.1'\n        \n\n        // NOTE: Do not place your application dependencies here; they belong\n        // in the individual module build.gradle files\n    }\n}\n\nallprojects {\n    repositories {\n        google()\n        jcenter()\n    }\n}\n\ntask clean(type: Delete) {\n    delete rootProject.buildDir\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(revision 7114fa560838ffed50b2d8276968dabc9a2ed985)
++++ build.gradle	(date 1532508397000)
+@@ -7,7 +7,7 @@
+         jcenter()
+     }
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:3.1.1'
++        classpath 'com.android.tools.build:gradle:3.1.3'
+         
+ 
+         // NOTE: Do not place your application dependencies here; they belong
+Index: app/src/main/java/com/shenkar/galargov/androidfp/AnimatedView.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.shenkar.galargov.androidfp;\n\nimport android.content.Context;\nimport android.graphics.Canvas;\nimport android.graphics.Color;\nimport android.graphics.Paint;\nimport android.support.annotation.Nullable;\nimport android.util.AttributeSet;\nimport android.util.Log;\nimport android.view.MotionEvent;\nimport android.view.View;\n//louk add\nimport android.graphics.Path;\nimport android.graphics.Point;\nimport android.os.Bundle;\nimport android.view.SurfaceHolder;\nimport android.view.SurfaceView;\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.List;\nimport java.util.Random;\n\n\npublic class AnimatedView extends SurfaceView implements  Runnable {\n    public static final int HOR_SPEED = 10;\n    private int radius = 50;\n    // private mDeltaY = 10;\n\n    Paint paint;\n    public int mHorSpeed;\n    public long mTimeOfDown;\n    // the x location of the car at the time of touch down\n    public float mXonDown;\n\n    Paint textpaint;\n    long myx , myy;\n    private int movement = 100,cou,cou2;\n    private Canvas animcanvas;\n    static int tdw = 400 , tdh = 300;\n    private static boolean PathDirection = false;\n    private List<PointLine> pathlist;\n    private Random RPoor;\n    private SurfaceHolder surfaceHolder;\n    private boolean canWePlay = false;\n    private Thread mThread;\n    public static int screenWidth, screenHeight;\n\n\n    private void init() {\n        paint = new Paint();\n        paint.setAntiAlias(true);\n        paint.setColor(Color.RED);\n        textpaint = new Paint();\n        textpaint.setAntiAlias(true);\n        textpaint.setColor(Color.RED);\n        textpaint.setTextSize(70);\n\n        // cannonPaint = new Paint();\n        pathlist = new ArrayList<PointLine>();\n        PathDirection = false;\n        RPoor = new Random();\n        myx = 0;\n        cou =0;cou2=0;\n        myy =0;\n        PointLine p1 , p2;\n        p1 = new PointLine();\n        p2 = new PointLine();\n        p1.L.x = this.getWidth() / 2 + 20 + movement;\n        p1.L.y = -20;\n        p1.R.x = this.getWidth() / 2 + 20 + tdw + movement;\n        p1.R.y = -20 + tdh + 200;\n        p2.L.x = this.getWidth() / 2 + 200 + movement;\n        p2.L.y = 100;\n        p2.R.x = this.getWidth() / 2 + 200 + tdw + movement;\n        p2.R.y = 100 + tdh + 200;\n\n        pathlist.add(p1);\n        pathlist.add(p2);\n    }\n    public AnimatedView(Context context) {\n        super(context);\n        surfaceHolder = getHolder();\n        init();\n    }\n\n    public AnimatedView(Context context, @Nullable AttributeSet attrs) {\n        super(context, attrs);\n        init();\n    }\n\n    public AnimatedView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {\n        super(context, attrs, defStyleAttr);\n        init();\n    }\n\n\n    public AnimatedView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {\n        super(context, attrs, defStyleAttr, defStyleRes);\n        init();\n    }\n\n    @Override\n    protected void onSizeChanged(int w, int h, int oldw, int oldh) {\n        super.onSizeChanged(w, h, oldw, oldh);\n        mXonDown = w / 2;\n    }\n\n    @Override\n    public boolean onTouchEvent(MotionEvent event) {\n        float x = event.getX();\n\n        if (event.getAction() == event.ACTION_DOWN) {\n            if (x < getWidth() / 2) {\n                mHorSpeed = -HOR_SPEED;\n            }\n            else {\n                mHorSpeed = HOR_SPEED;\n            }\n            mTimeOfDown = System.currentTimeMillis();\n            postInvalidateOnAnimation();\n            return true;\n        }\n        //PO\n        if (event.getAction() == event.ACTION_MOVE) {\n\n        }\n\n        if (event.getAction() == event.ACTION_UP) {\n\n            mXonDown = Calculations.calculateCarLocation(System.currentTimeMillis() - mTimeOfDown, mXonDown, mHorSpeed);\n            mHorSpeed = 0;\n\n        }\n        // onMoveEvent(x); // todo: relevant only if move will change car direction\n\n        return super.onTouchEvent(event);\n    }\n\n    private long fixCarLocation() {\n        long x = mHorSpeed == 0 ?\n                (long) mXonDown :\n                Calculations.calculateCarLocation(System.currentTimeMillis() - mTimeOfDown, mXonDown, mHorSpeed);\n\n        // Keep the ball / car in the screen (check X limits: between 0 to getWidth).\n        if (x < radius)\n            x = radius;\n        if (x > getWidth() - radius)\n            x = getWidth() - radius;\n        return x;\n    }\n\n    public void drawCar(Canvas canvas, long x) {\n\n        canvas.drawColor(Color.WHITE);\n        canvas.drawCircle(x, getHeight()-400, radius, paint);\n        DrawPaths(canvas);\n    }\n\n\n\n    private void MoveDown(int l){\n        boolean isZero = false;\n        boolean isOutSouth = false;\n        for(PointLine p : pathlist){\n            if(p.L.y == 0 || p.R.y == 0) { // the second never reached\n                isZero = true;\n            }\n            if(p.L.y == this.getHeight() || p.R.y == this.getHeight()){\n                isOutSouth = true;\n            }\n            p.L.y += l;\n            p.R.y += l;\n        }\n        if (isZero == true) {\n            AddPaths(tdw, tdh, 0);\n        }\n        if(isOutSouth == true){\n            pathlist.remove(pathlist.size() - 1);\n        }\n    }\n\n    private void AddPaths(int dm,int dh,int h){\n        PointLine newPoint = new PointLine();\n        int d= RPoor.nextInt(200)+150-h;\n        dm = RPoor.nextInt(400)+200 ;\n        if (PathDirection == false){\n            newPoint.L.x = pathlist.get(0).L.x+movement ;\n            newPoint.R.x = pathlist.get(0).L.x  + dm+movement;\n            PathDirection = true;\n        }else{\n            newPoint.L.x = pathlist.get(0).L.x + d+movement;\n            newPoint.R.x = pathlist.get(0).L.x + d + dm+movement;\n            PathDirection = false;\n        }\n\n        newPoint.R.y = newPoint.L.y = -dh;\n\n\n        if(newPoint.R.x >= this.getWidth()-200||newPoint.L.x <= 0){\n            if(PathDirection)PathDirection = false;\n            else PathDirection = true;\n\n            AddPaths(dm,dh,100);\n        }else{\n            pathlist.add(newPoint);\n        }\n    }\n\n    private void DrawPaths(Canvas canvas){\n        Random rnd = new Random();\n        int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));\n        float t = paint.getStrokeWidth();\n        float t2 = rnd.nextFloat()+rnd.nextInt(14);\n        int x1,x2,y1,y2;\n        // paint.setStrokeWidth(t2);\n        //paint.setColor(color);\n        MoveDown(10);\n        for(int i = 0 ; i < pathlist.size() - 1; ++i){\n            canvas.drawLine(pathlist.get(i).L.x, pathlist.get(i).L.y, pathlist.get(i + 1).L.x, pathlist.get(i + 1).L.y,paint);\n            canvas.drawLine(pathlist.get(i).R.x, pathlist.get(i).R.y, pathlist.get(i + 1).R.x, pathlist.get(i + 1).R.y,paint);\n            x1 = Math.abs(pathlist.get(i).L.x) ;\n            x2 = Math.abs(pathlist.get(i+1).L.x) ;\n            y2 = Math.abs(pathlist.get(i+1).L.y) ;\n            y1 = Math.abs(pathlist.get(i).L.y);\n//            int m = Math.abs(((y2-y1)-(y2-y1))/((x2-x1)*(x2-x1)));\n            int aLine = (y2-y1)/(x2-x1);\n            int bLine = 0;\n            if (Calculations.calculateTouchCarAndLine(myx, myy, aLine, bLine, radius) == true) {\n                cou++;\n                canvas.drawText(\"Ca \"+cou,this.getWidth() - 400,70,textpaint);\n            }\n        }\n        paint.setStrokeWidth(t);\n    }\n\n    @Override\n    public void run() {\n        long t1 = System.currentTimeMillis();\n\n        while(canWePlay) {\n            if (!surfaceHolder.getSurface().isValid()) {\n                continue;\n            }\n            animcanvas = surfaceHolder.lockCanvas();\n            screenHeight = animcanvas.getHeight();\n            screenWidth = animcanvas.getWidth();\n//            myx = fixCarLocation();\n            drawCar(animcanvas, fixCarLocation());\n            surfaceHolder.unlockCanvasAndPost(animcanvas);\n        }\n    }\n\n    public void pause() {\n        canWePlay = false;\n        while(true){\n            try {\n                mThread.join();\n            } catch (InterruptedException e) {\n                e.printStackTrace();\n            }\n            break;\n        }\n        mThread = null;\n    }\n\n    public void resume() {\n        canWePlay = true;\n        mThread = new Thread(this);\n        mThread.start(); // Call to run function.\n    }\n\n    public void clean(){\n\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/shenkar/galargov/androidfp/AnimatedView.java	(revision 7114fa560838ffed50b2d8276968dabc9a2ed985)
++++ app/src/main/java/com/shenkar/galargov/androidfp/AnimatedView.java	(date 1533492778000)
+@@ -152,7 +152,7 @@
+     public void drawCar(Canvas canvas, long x) {
+ 
+         canvas.drawColor(Color.WHITE);
+-        canvas.drawCircle(x, getHeight()-400, radius, paint);
++        canvas.drawCircle(x, getHeight() - 400, radius, paint);
+         DrawPaths(canvas);
+     }
+ 
+@@ -271,5 +271,13 @@
+ 
+     public void clean(){
+ 
++    }
++
++    public void setmHorSpeed(int mHorSpeed) {
++        this.mHorSpeed = mHorSpeed;
++    }
++
++    public void setmTimeOfDown(long mTimeOfDown) {
++        this.mTimeOfDown = mTimeOfDown;
+     }
+ }
+Index: app/src/main/java/com/shenkar/galargov/androidfp/Car.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/shenkar/galargov/androidfp/Car.java	(date 1531854725000)
++++ app/src/main/java/com/shenkar/galargov/androidfp/Car.java	(date 1531854725000)
+@@ -0,0 +1,44 @@
++package com.shenkar.galargov.androidfp;
++
++public class Car {
++    private int left, top, right, bottom;
++
++    public Car(int left, int top, int right, int bottom) {
++        this.left = left;
++        this.top = top;
++        this.right = right;
++        this.bottom = bottom;
++    }
++
++    public int getLeft() {
++        return left;
++    }
++
++    public void setLeft(int left) {
++        this.left = left;
++    }
++
++    public int getTop() {
++        return top;
++    }
++
++    public void setTop(int top) {
++        this.top = top;
++    }
++
++    public int getRight() {
++        return right;
++    }
++
++    public void setRight(int right) {
++        this.right = right;
++    }
++
++    public int getButtom() {
++        return bottom;
++    }
++
++    public void setButtom(int buttom) {
++        this.bottom = buttom;
++    }
++}
+Index: app/src/main/java/com/shenkar/galargov/androidfp/Game.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.shenkar.galargov.androidfp;\n\nimport android.content.Intent;\nimport android.graphics.Canvas;\n\nimport android.support.v7.app.AppCompatActivity;\nimport android.os.Bundle;\nimport android.view.MotionEvent;\nimport android.view.View;\n\n\npublic class Game extends AppCompatActivity {\n\n    private AnimatedView mLayout;\n    private static int lastDir=1;\n    private int countTo11=0;\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        //setContentView(R.layout.activity_animation);\n\n        mLayout = new AnimatedView(this);\n\n        setContentView(mLayout);\n    }\n\n\n\n\n    @Override\n    public boolean onTouchEvent(MotionEvent event) {\n        float x = event.getX();\n\n        if (event.getAction() == event.ACTION_DOWN) {\n            if (x < mLayout.getWidth() / 2) {\n                mLayout.mHorSpeed = -mLayout.HOR_SPEED;\n            } else {\n                mLayout.mHorSpeed = mLayout.HOR_SPEED;\n            }\n\n            mLayout.mTimeOfDown = System.currentTimeMillis();\n            mLayout.postInvalidateOnAnimation();\n\n            return true;\n        }\n        //PO\n        if (event.getAction() == event.ACTION_MOVE) {\n\n        }\n\n        if (event.getAction() == event.ACTION_UP) {\n\n            mLayout.mXonDown = Calculations.calculateCarLocation(System.currentTimeMillis() -  mLayout.mTimeOfDown,  mLayout.mXonDown,  mLayout.mHorSpeed);\n            mLayout.mHorSpeed = 0;\n\n        }\n        // onMoveEvent(x); // todo: relevant only if move will change car direction\n\n        return super.onTouchEvent(event);\n    }\n    @Override\n    protected void onPause() {\n        super.onPause();\n        mLayout.pause();\n    }\n\n    @Override\n    protected void onResume() {\n        super.onResume();\n        mLayout.resume();\n    }\n\n    public void onReturn(View v) {\n        finish();\n    }\n\n    private int rand(int min, int max) {\n        return (int)(Math.random() * max + min);\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/shenkar/galargov/androidfp/Game.java	(revision 7114fa560838ffed50b2d8276968dabc9a2ed985)
++++ app/src/main/java/com/shenkar/galargov/androidfp/Game.java	(date 1532972793000)
+@@ -10,37 +10,33 @@
+ 
+ 
+ public class Game extends AppCompatActivity {
+-
+     private AnimatedView mLayout;
+     private static int lastDir=1;
+     private int countTo11=0;
++
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         //setContentView(R.layout.activity_animation);
+-
+         mLayout = new AnimatedView(this);
+-
+         setContentView(mLayout);
+     }
+ 
+-
+-
+-
+     @Override
+     public boolean onTouchEvent(MotionEvent event) {
+         float x = event.getX();
+ 
+         if (event.getAction() == event.ACTION_DOWN) {
+             if (x < mLayout.getWidth() / 2) {
+-                mLayout.mHorSpeed = -mLayout.HOR_SPEED;
++//                mLayout.mHorSpeed = -mLayout.HOR_SPEED;
++                mLayout.setmHorSpeed(-mLayout.HOR_SPEED);
+             } else {
+-                mLayout.mHorSpeed = mLayout.HOR_SPEED;
++//                mLayout.mHorSpeed = mLayout.HOR_SPEED;
++                mLayout.setmHorSpeed(mLayout.HOR_SPEED);
+             }
+-
+-            mLayout.mTimeOfDown = System.currentTimeMillis();
++//            mLayout.mTimeOfDown = System.currentTimeMillis();
++            mLayout.setmTimeOfDown(System.currentTimeMillis());
+             mLayout.postInvalidateOnAnimation();
+-
+             return true;
+         }
+         //PO
+@@ -77,4 +73,6 @@
+     private int rand(int min, int max) {
+         return (int)(Math.random() * max + min);
+     }
++
++
+ }
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\n\nandroid {\n    compileSdkVersion 27\n    defaultConfig {\n        applicationId \"com.shenkar.galargov.androidfp\"\n        minSdkVersion 21\n        targetSdkVersion 27\n        versionCode 1\n        versionName \"1.0\"\n        testInstrumentationRunner \"android.support.test.runner.AndroidJUnitRunner\"\n    }\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'\n        }\n    }\n}\n\ndependencies {\n    implementation fileTree(dir: 'libs', include: ['*.jar'])\n    implementation 'com.android.support:appcompat-v7:27.1.1'\n    implementation 'com.android.support.constraint:constraint-layout:1.1.0'\n    testImplementation 'junit:junit:4.12'\n    androidTestImplementation 'com.android.support.test:runner:1.0.2'\n    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'\n    implementation 'com.android.support:recyclerview-v7:27.1.1'\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 7114fa560838ffed50b2d8276968dabc9a2ed985)
++++ app/build.gradle	(date 1531955969000)
+@@ -26,4 +26,5 @@
+     androidTestImplementation 'com.android.support.test:runner:1.0.2'
+     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+     implementation 'com.android.support:recyclerview-v7:27.1.1'
++    implementation 'org.jetbrains:annotations-java5:15.0'
+ }
